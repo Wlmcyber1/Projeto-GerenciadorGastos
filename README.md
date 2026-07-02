@@ -53,8 +53,6 @@ Se quiseres testar o projeto localmente (mesmo com os bugs conhecidos), segue os
 1. Clona o repositório:
    ```bash
    git clone https://github.com/Wlmcyber1/Projeto-GerenciadorGastos
-  
-
    ```
 2. Entra na pasta do projeto:
    ```bash
