@@ -77,15 +77,15 @@ function ModalJanelaGasto({ onClose, aoSalvarGasto }) {
                   color: "#ffffff",
                 }}
                 onClick={(event) => {
-                  event.preventDefault(); // 👈 1. Impede a página de recarregar
+                  event.preventDefault(); // 
 
-                  // 👈 2. Corrigido de inputOndeGastou para opcaoOndeGastou
+                
                   aoSalvarGasto({
                     valor: inputValorGasto,
                     categoria: opcaoOndeGastou,
                   });
 
-                  onClose(); // 👈 3. Fecha o modal automaticamente ao salvar
+                  onClose(); 
                 }}
               >
                 Confirmar Gasto
