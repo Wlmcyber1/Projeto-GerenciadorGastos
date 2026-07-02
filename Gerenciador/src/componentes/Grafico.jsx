@@ -1,7 +1,7 @@
 import React from "react";
 
 function Grafico({ data }) {
-  // 1. Se não houver dados, exibe a mensagem amigável
+  
   if (!data || data.length === 0) {
     return (
       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '200px', color: '#6b7280', fontSize: '14px' }}>
@@ -10,10 +10,10 @@ function Grafico({ data }) {
     );
   }
 
-  // 2. 🚀 O PULO DO GATO: Agrupar gastos com a mesma categoria!
+  
   const gastosAgrupados = data.reduce((acumulador, gastoAtual) => {
     const cat = gastoAtual.categoria;
-    // Se a categoria já existe no nosso objeto, soma o valor. Se não, cria ela.
+ 
     if (acumulador[cat]) {
       acumulador[cat] += gastoAtual.valor;
     } else {
@@ -22,16 +22,16 @@ function Grafico({ data }) {
     return acumulador;
   }, {});
 
-  // Transforma o objeto agrupado de volta em uma lista (Array) de objetos para o .map
+  
   const dadosFormatados = Object.keys(gastosAgrupados).map((chaveCategoria) => ({
     categoria: chaveCategoria,
     valor: gastosAgrupados[chaveCategoria]
   }));
 
-  // 3. Encontra o maior valor acumulado para equilibrar a altura proporcional das barras
+
   const maiorValor = Math.max(...dadosFormatados.map(gasto => gasto.valor), 1);
 
-  // Mapeamento de emojis e nomes amigáveis para exibir embaixo das barras
+
   const formatarLegenda = (categoria) => {
     const legendas = {
       Alimentacao: "🛒 Alimentação",
