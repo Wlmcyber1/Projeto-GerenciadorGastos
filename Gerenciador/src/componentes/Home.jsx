@@ -2,22 +2,28 @@ import { useState } from "react";
 import "./home.css";
 import PagInicio from "./PagInicio";
 import CriarConta from "./CriarConta";
+import EsqueceuSenha from "./EsqueceuSenha";
+import { useForm } from "react-hook-form";
 function Home() {
-  const [email, setEmail] = useState("");
-  const [senha, setSenha] = useState("");
+ 
   const [mostrarComponente, setMostrarComponente] = useState(false);
   const [criarConta, setCriarConta] = useState(false);
   const [erro, setErro] = useState(false);
-  const handleEntrar = (e) => {
-    e.preventDefault();
+  const [telaRecuperacao, setTelaRecuperacao] = useState(false);
+
+  const { register, handleSubmit } = useForm();
+
+  const handleEntrar = (data) => {
+    const emailDigitado = data.email;
+    const senhaDigitada = data.senha; 
     const todosOsCadastrados =
       JSON.parse(localStorage.getItem("usuarios_cadastrados")) || [];
 
     const contaExiste = todosOsCadastrados.find(
-      (usuario) => usuario.email === email && usuario.senha === senha,
+      (usuario) => usuario.email === emailDigitado && usuario.senha === senhaDigitada,
     );
 
-    if (email === "" || senha === "") {
+    if (emailDigitado === "" || senhaDigitada === "") {
       setErro(true);
     } else if (contaExiste) {
       //se conta existe adicionamos a nova conta ao localStorage e abrimos o outro componente
@@ -25,12 +31,21 @@ function Home() {
       setMostrarComponente(true);
     } else {
       setErro(true);
-     
     }
   };
 
   if (mostrarComponente) {
     return <PagInicio />;
+  }
+
+  const handleEsqueceuSenha = (e) => {
+    e.preventDefault();
+    setTelaRecuperacao(true); // Ativa a tela
+  };
+
+  // Condicional com o novo nome do estado
+  if (telaRecuperacao) {
+    return <EsqueceuSenha onVoltar={() => setTelaRecuperacao(false)} />;
   }
 
   const handleCriarConta = () => {
@@ -60,31 +75,23 @@ function Home() {
           <p>Por favor, digite as informações abaixo</p>
         </div>
 
-        <form className="login-form" onSubmit={handleEntrar}>
+        <form className="login-form" onSubmit={handleSubmit(handleEntrar)}>
           <div className="input-group">
             <label htmlFor="email">E-mail</label>
-            <input
-              id="email"
-              type="email"
-              placeholder="Entre com seu e-mail"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
+            <input {...register("email")} />
           </div>
 
           <div className="input-group">
             <label htmlFor="password">Senha</label>
             <input
-              id="password"
-              type="password"
-              placeholder="Digite sua senha de 8 digitos"
-              value={senha}
-              onChange={(e) => setSenha(e.target.value)}
+              {...register("senha")}
             />
           </div>
 
           <div className="esqueceusenha">
-            <a href="#">Esqueceu sua senha?</a>
+            <a href="#" onClick={handleEsqueceuSenha}>
+              Esqueceu sua senha?
+            </a>
           </div>
 
           <button type="submit" className="btn-primary">

@@ -3,7 +3,7 @@ import { useState } from "react";
 const JanelaDeposito = ({ onClose, onClick }) => {
   const [valorDeposito, setValordeposito] = useState("");
   const [origemValor, setOrigemValor] = useState("Trabalho");
-
+  
   const handleSubmit = (evento) => {
     evento.preventDefault();
     if (!valorDeposito || Number(valorDeposito) <= 0) return;

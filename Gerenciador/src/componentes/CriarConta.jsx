@@ -1,67 +1,62 @@
 import { useState } from "react";
 import Home from "./Home";
 import { List } from "lucide-react";
+import { useForm } from "react-hook-form";
 
 function CriarConta() {
-  
   const [acessarConta, setAcessarConta] = useState(false);
   const [erro, setErro] = useState(false);
-  const [nome, setNome] = useState("");
-  const [email, setEmail] = useState("");
-  const [senha, setSenha] = useState("");
-  const [confimarSenha, setConfirmarSenha] = useState("");
-  const handleVerificarUser = (e) => {
-    const idGerado = Date.now().toString(); 
-    
-    e.preventDefault();
+
+  const { register, handleSubmit } = useForm();
+
+  const onSubmit = (data) => {
+    const idGerado = Date.now().toString();
+    const nomeDigitado = data.nome;
+    const senhaDigitada = data.senha;
+    const emailDigitado = data.email;
+    const confirmarSenha = data.confirmarsenha;
 
     const todosOsCadastrados =
       JSON.parse(localStorage.getItem("usuarios_cadastrados")) || [];
 
     const emailExiste = todosOsCadastrados.some(
-      (usuario) => usuario.email === email, 
+      (usuario) => usuario.email === emailDigitado,
     );
     if (emailExiste) {
       alert("O email já existe!");
+      return;
     }
-    
-    else if (senha !== confimarSenha) {
+
+    if (senhaDigitada !== confirmarSenha) {
       alert("As senhas não coincidem!");
+      return;
     }
-    else if(email.trim() !==''){
+    if (emailDigitado.trim() !== "") {
       const novoUsuario = {
-      nome: nome,
-      idUsuario: idGerado,
-      email: email,
-      senha: senha,
-    };
-    localStorage.setItem("usuario_logado_agora", JSON.stringify(novoUsuario));
+        nome: nomeDigitado,
+        idUsuario: idGerado,
+        email: emailDigitado,
+        senha: senhaDigitada,
+      };
+      localStorage.setItem("usuario_logado_agora", JSON.stringify(novoUsuario));
 
-    todosOsCadastrados.push(novoUsuario);
+      todosOsCadastrados.push(novoUsuario);
 
-    localStorage.setItem(
-      "usuarios_cadastrados",
-      JSON.stringify(todosOsCadastrados),
-    );
+      localStorage.setItem(
+        "usuarios_cadastrados",
+        JSON.stringify(todosOsCadastrados),
+      );
 
-    alert("Usuário cadastrado com sucesso!");
+      alert("Usuário cadastrado com sucesso!");
 
-    setNome("");
-    setEmail("");
+      setAcessarConta(true);
     }
-    
   };
-  
-  const handleAcessarConta = () => {
-    setAcessarConta(true);
-  };
+
   if (acessarConta) {
     return <Home />;
   }
 
-  const onSubmit = ()=>{
-    console.log(dados)
-  }
   return (
     <div className="page-container">
       <nav className="navbar">
@@ -77,16 +72,14 @@ function CriarConta() {
           <p>Por favor, preencha os campos abaixo para se cadastrar</p>
         </div>
 
-        <form className="login-form" onSubmit={handleVerificarUser}>
+        <form className="login-form" onSubmit={handleSubmit(onSubmit)}>
           <div className="input-group">
             <label htmlFor="nome">Nome Completo</label>
             <input
               id="nome"
               type="text"
               placeholder="Digite seu nome completo"
-              onChange={(e) => {
-                setNome(e.target.value);
-              }}
+              {...register("nome")}
             />
           </div>
 
@@ -96,16 +89,14 @@ function CriarConta() {
               id="email"
               type="email"
               placeholder="Entre com seu e-mail"
-              onChange={(e) => {
-                setEmail(e.target.value);
-              }}
+              {...register("email")}
             />
           </div>
 
           <div className="input-group">
             <label htmlFor="password">Senha</label>
             <input
-              onChange={(e) => setSenha(e.target.value)}
+              {...register("senha")}
               id="password"
               type="password"
               placeholder="Crie uma senha forte"
@@ -118,7 +109,7 @@ function CriarConta() {
               id="confirmPassword"
               type="password"
               placeholder="Repita a senha criada"
-              onChange={(e) => setConfirmarSenha(e.target.value)}
+              {...register("confirmarsenha")}
             />
           </div>
 
@@ -134,7 +125,7 @@ function CriarConta() {
         <div className="signup-link">
           <p>
             Já tem uma conta?{" "}
-            <span onClick={handleAcessarConta}>Faça login</span>
+            <span onClick={() => setAcessarConta(true)}>Faça login</span>
           </p>
         </div>
       </main>
