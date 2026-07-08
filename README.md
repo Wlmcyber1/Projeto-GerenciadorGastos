@@ -39,8 +39,8 @@ Para resolver o isolamento de dados entre múltiplas contas sem uma base de dado
 
 ## 🚧 Próximos Passos e Ajustes Previstos
 
- Corrigir bugs visuais na listagem estática do fluxo recente de saídas.
- Implementar a lógica real de cálculo de percentagem nas barras de distribuição por categorias.
+ [] Corrigir bugs visuais na listagem estática do fluxo recente de saídas.
+ [] Implementar a lógica real de cálculo de percentagem nas barras de distribuição por categorias.
 
 
 
