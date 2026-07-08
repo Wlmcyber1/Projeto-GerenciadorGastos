@@ -56,20 +56,14 @@ Se quiseres testar o projeto localmente (mesmo com os bugs conhecidos), segue os
    ```
 2. Entra na pasta do projeto:
    ```bash
-   
    cd Gerenciador
-
    ```
  3. Instala as dependências:
    ```bash
-   
    npm install
-
    ```
  4. Instala as dependências:
    ```bash
-   
    npm run dev
-
    ```
    
